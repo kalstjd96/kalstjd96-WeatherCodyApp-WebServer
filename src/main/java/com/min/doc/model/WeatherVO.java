@@ -2,34 +2,20 @@ package com.min.doc.model;
 
 public class WeatherVO {
 	
-	private String id;
-	private String pw;
-	private String name;
-
-	public String getId() {
-		return id;
+	private String top;
+	private String pants;
+	public String getTop() {
+		return top;
+	}
+	public void setTop(String top) {
+		this.top = top;
+	}
+	public String getPants() {
+		return pants;
+	}
+	public void setPants(String pants) {
+		this.pants = pants;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getPw() {
-		return pw;
-	}
-
-	public void setPw(String pw) {
-		this.pw = pw;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 	
-	
-
 }

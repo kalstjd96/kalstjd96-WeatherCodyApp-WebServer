@@ -6,5 +6,7 @@ import com.min.doc.model.*;
 
 public interface WeatherService {
 	
-	List<WeatherVO> weatherDao(String weather);
+	//List<WeatherVO> weatherDao(String weather);
+	
+	WeatherVO weatherDao(String weather);
 }

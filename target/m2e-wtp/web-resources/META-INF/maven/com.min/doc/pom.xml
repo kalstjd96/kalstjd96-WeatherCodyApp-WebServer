@@ -203,6 +203,12 @@
 		    <version>1.16</version>
 		</dependency>
 		
+		<!-- Object to Map -->
+	<dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-databind</artifactId>
+		<version>2.6.3</version>
+	</dependency>
 	
 	
 		

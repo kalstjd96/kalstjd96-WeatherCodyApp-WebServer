@@ -16,7 +16,9 @@
 	-->
 	
 	<select id="weatherDao" resultType="WeatherVO">
-		select name from test where id= #{MNO}; 
+		select top, pants from weather where tem= #{TEM}; 
 	</select>
+	
+	<!--  DB 테이블 다시 구성 top, pants, tem , hum으로 구성   -->
 	
 </mapper>

@@ -16,8 +16,15 @@ public class WeatherServiceImpl implements WeatherService{
 	@Autowired //@Inject 
 	private WeatherMapper weatherMapper;
 		
-	@Override
+/*	@Override
 	public List<WeatherVO> weatherDao(String weathervo) {
+
+		return weatherMapper.weatherDao(weathervo);
+	}
+	
+*/	
+	@Override
+	public WeatherVO weatherDao(String weathervo) {
 
 		return weatherMapper.weatherDao(weathervo);
 	}
