@@ -4,31 +4,23 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.min.doc.mapper.WeatherMapper;
-import com.min.doc.model.WeatherVO;
+import com.min.doc.dao.WeatherDAO;
+import com.min.doc.dto.WeatherVO;
+
 
 @Service
-public class WeatherServiceImpl implements WeatherService{
-
-	@Autowired //@Inject 
-	private WeatherMapper weatherMapper;
-		
-/*	@Override
-	public List<WeatherVO> weatherDao(String weathervo) {
-
-		return weatherMapper.weatherDao(weathervo);
-	}
-	
-*/	
-	@Override
-	public WeatherVO weatherDao(String weathervo) {
-
-		return weatherMapper.weatherDao(weathervo);
-	}
-	
-	
-
+public class WeatherServiceImpl implements WeatherService {
+	    
+	 @Inject
+	    private WeatherDAO dao;
+	    
+	    @Override
+	    public WeatherVO weatherDao(String tem, String hum){
+	 
+	        return dao.weatherDao(tem, hum);
+	    }
+	    
+	    
 }

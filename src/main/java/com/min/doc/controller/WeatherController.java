@@ -1,9 +1,12 @@
-package com.min.doc.comtroller;
+package com.min.doc.controller;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,45 +20,44 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.min.doc.model.WeatherVO;
+/*
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;*/
+import com.min.doc.dto.WeatherVO;
 import com.min.doc.service.WeatherService;
 
-@RequestMapping("/weather")
 @Controller
 public class WeatherController {
 	
-	@Autowired
+	@Inject
 	private WeatherService service;
 	
-	@RequestMapping(value = "/weather", produces = "application/json; charset=utf8")
+	
+	
+	@RequestMapping(value = "/weather")//, produces = "application/json; charset=utf8")
 	@ResponseBody
 	public Map<String, String> Weather(HttpServletRequest request){
-
 				
-		String weather= request.getParameter("Temperature");
-		System.out.println(weather);
+		String tem= request.getParameter("Temperature");
+		String hum= request.getParameter("Humidity");
 		
-		WeatherVO weatherVO = service.weatherDao(weather);
+		System.out.println(tem);
+		//List<WeatherVO> weatherList = service.weatherDao(tem, hum);
 		
+		WeatherVO weatherVO = service.weatherDao(tem,hum);
+		System.out.println(weatherVO.getMno());
 		Map<String, String> result = new HashMap<String, String>();
+		
 		ObjectMapper oMapper = new ObjectMapper();
 		
-		//ÀÌ´Â jackson ¶óÀÌºê·¯¸®¸¦ ÀÌ¿ëÇÏ´Â °ÍÀ¸·Î½á java Object¸¦ JSONÀ¸·Î º¯È¯ÇÏ°Å³ª JSONÀ» java Object·Î º¯È¯ÇÏ´Âµ¥ »ç¿ëÇÒ ¼ö ÀÖ´Â ¶óÀÌºê·¯¸®
-		//List<WeatherVO> memberList = service.weatherDao(weather);
-		
 		if(weatherVO == null) {
-			result.put("top", "no");
-			System.out.println("ÀÇ»óÀÌ ¾ø´Ù.");
+			result.put("mno", "no");
+			System.out.println("ë“±ë¡ëœ ì˜ìƒì´ ì—†ìŒ ");
 		}else {
+			
 			result = oMapper.convertValue(weatherVO, Map.class);
-			System.out.println("¼º°øÀû");
+			System.out.println("test Success");
 		}
 		return result;
-		//Gson gson = new Gson();
-	//	String gson1String = gson.toJson(memberList);
-		//System.out.println(gson1String);
-		
-		//return "gson1String";
 	}
 }

@@ -5,49 +5,43 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
-	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
 		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
-		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
-    
-    <!-- MySQL dataSource -->
-    <!-- 이 부분은 MySQL과 연결을 담당하는 부분이다. dataSource는 JDBC 커넥션을 처리하는 기능을 가지고
-    	있기 때문에 DB와 연동하는 작업에 필요한 코드이다. -->
-    <bean id="dataSource"
-        class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-        <property name="url"
-            value="jdbc:log4jdbc:mysql://localhost:3306/min?useSSL=false&amp;serverTimezone=UTC">
-        </property>
-        <property name="username" value="user01"></property>
-        <property name="password" value="960320"></property>
-    </bean>        
+	<!-- MySQL dataSource  log4jdbc는 로그를 좀더 자세히 보기위해 설정한 것 -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+		<property name="url"
+			value="jdbc:log4jdbc:mysql://127.0.0.1:3306/min?useSSL=false&amp;serverTimezone=UTC"></property>
+		<property name="username" value="user01"></property>
+		<property name="password" value="960320"></property>
+	</bean>
+	<!-- 좀더 자세한 로그 정보를 출력하기 위해 설정한 log4jdbc 와 net.sf.log4jdbc.sql~ -->
 
-    
-	 <!-- mybatis SqlSessionFactoryBean -->
-	 <!-- DB와의 연결과 SQL의 실행에 대한 모든 것을 가진 객체 -->
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+
+	<!-- mybatis SqlSessionFactoryBean -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="configLocation" value="classpath:/mybatis-config.xml"></property>
-		<property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"></property>
+		<!-- mybatis 설정 기능을 활용할 수 있도록 설정 파일을 읽어오는 부분 -->
+        <property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"></property>
+		<!-- sql문을 작성해둘 mapper.xml 파일을 읽어오는 부분 -->
 	</bean>
- 
- 	<!-- mybatis 	 -->
-	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"
-		destroy-method="clearCache">
-		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
-	</bean>
-	
-	
-	<!-- bean 등록 -->
-	  	<context:component-scan base-package="com.min.doc.dao"></context:component-scan>
-	<context:component-scan base-package="com.min.doc.service"></context:component-scan>
-	
 
-    
-	
+    <!-- mybatis sqlSessionTemplate  이는 기본적인 트랜잭션 관리나 스레드 처리의 안정성 등을 보장 , DB연결과 종료를 관리하는 부분    -->
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"
+        destroy-method="clearCache">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
+    </bean>
+
+<!-- bean 등록 -->		
+	<context:component-scan base-package="com.min.doc.dao"></context:component-scan>
+	<context:component-scan base-package="com.min.doc.service"></context:component-scan>
+ <!-- DAOImpldp @Repository를 등록하여도 스프링에서 해당되는 패키지를 스캔하지 않으면 스프링 빈으로 등록이 x 그렇기 때문에 root에 설정을 해주어야 한다. -->	
 </beans>
