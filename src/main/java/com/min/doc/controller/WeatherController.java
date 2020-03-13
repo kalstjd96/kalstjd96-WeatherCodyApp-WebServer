@@ -37,6 +37,8 @@ public class WeatherController {
 		String tem = "0";
 		tem= request.getParameter("tem");
 		
+		
+		
 		//String hum= request.getParameter("Humidity");
 		
 		System.out.println("가져온 값 ="+tem);
